@@ -1,0 +1,16 @@
+// select first ten pigeons
+SELECT common_name AS 'Bird' FROM birds WHERE common_name LIKE '%Pigeon' ORDER BY common_name LIMIT 0, 10;
+
+// select 11th to 20th pigeons
+SELECT common_name AS 'Bird' FROM birds WHERE common_name LIKE '%Pigeon' ORDER BY common_name LIMIT 10, 10;
+
+// q2 part 2 , select common_name and scientific_name
+SELECT common_name AS 'Common Name of Bird', scientific_name AS 'Scientific Name of Bird' FROM birds WHERE NOT common_name = "" ORDER BY common_name LIMIT 25;
+
+// combining q2 part 1 and q2 part2
+SELECT common_name AS 'Common Name of Bird', birds.scientific_name AS 'Scientific Name of Bird', bird_orders.scientific_name AS 'Order', bird_orders.brief_description AS 'Types of Birds in Order' FROM birds, bird_families, bird_orders WHERE NOT common_name = "" AND birds.family_id = bird_families.family_id AND bird_families.order_id = bird_orders.order_id ORDER BY common_name LIMIT 25;
+
+
+
+// q3, doves or pigeons
+SELECT common_name AS 'Type of Columbidae' FROM birds  WHERE common_name REGEXP "Pigeon|Dove" LIMIT 100;

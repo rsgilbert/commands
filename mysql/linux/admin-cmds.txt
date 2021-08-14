@@ -1,0 +1,2 @@
+Create new user
+>sudo mysql -u root -p -e "CREATE USER 'gilbert'@'localhost' IDENTIFIED BY 'Stanislav1@@';"

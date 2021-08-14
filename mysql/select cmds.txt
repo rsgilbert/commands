@@ -1,0 +1,107 @@
+// select showing all fields (shortest select statement)
+SELECT * FROM birds;
+
+// select showing some fields
+SELECT bird_id, scientific_name, common_name FROM birds;
+
+// select by a criteria
+SELECT common_name, scientific_name FROM birds WHERE family_id = 103 LIMIT 5;
+
+// select and order
+SELECT common_name, scientific_name FROM birds WHERE family_id = 103
+    -> ORDER BY common_name LIMIT 5;
+
+// use IN operator to list within parenthesis values we want for a particular field
+SELECT * FROM bird_families WHERE family_id IN (103, 160, 162, 164);
+
+SELECT common_name, scientific_name, family_id FROM birds WHERE family_id IN (103, 160, 162, 164) ORDER BY common_name LIMIT 4;
+
+// multiple filters including inequality filter
+SELECT common_name, scientific_name, family_id
+    -> FROM birds
+    -> WHERE family_id IN (103, 164)
+    -> AND common_name != ''
+    -> ORDER BY common_name
+    -> LIMIT 3;
+
+// limit with start and end row positions
+SELECT common_name, scientific_name, family_id FROM birds WHERE family_id IN (164, 103) AND common_name <> '' ORDER BY common_name LIMIT 1, 3;
++------------------------+--------------------+-----------+
+| common_name            | scientific_name    | family_id |
++------------------------+--------------------+-----------+
+| Amami Woodcock         | Scolopax mira      |       164 |
+| American Golden-Plover | Pluvialis dominica |       103 |
+| American Woodcock      | Scolopax minor     |       164 |
++------------------------+--------------------+-----------+
+
+
+
+// combine tables wit join
+SELECT common_name AS 'Bird', bird_families.scientific_name AS 'Family' FROM birds, bird_families WHERE birds.family_id = bird_families.family_id
+    -> AND order_id = 102 AND common_name <> '' ORDER BY common_name LIMIT 10;
+
+// labelling a table (bird_families) using AS and using that label in queries
+SELECT common_name AS 'Bird', families.scientific_name AS 'Family' FROM birds, bird_families AS families WHERE birds.family_id = families.family_id
+    -> AND order_id = 102 AND common_name <> '' ORDER BY common_name LIMIT 10;
+
+
+// pattern matching using LIKE, select from multiple tables, order on multiple fields
+SELECT common_name, families.scientific_name AS 'Family', orders.scientific_name AS 'Order' FROM birds, bird_families AS families, bird_orders AS orders WHERE birds.family_id = families.family_id AND families.order_id = orders.order_id AND common_name LIKE 'Least%' ORDER BY orders.scientific_name, families.scientific_name DESC, common_name  LIMIT 10;
++------------------+---------------------------------------------+------------------+
+| common_name      | Family                                      | Order            |
++------------------+---------------------------------------------+------------------+
+| Least Nighthawk  | Caprimulgidae                               | Caprimulgiformes |
+| Least Pauraque   | Caprimulgidae                               | Caprimulgiformes |
+| Least Auklet     | Rostratulidae (Painted-Snipes)              | Charadriiformes  |
+| Least Sandpiper  | Pluvianidae (Egyptian Plover)               | Charadriiformes  |
+| Least Tern       | Laridae                                     | Charadriiformes  |
+| Least Seedsnipe  | Charadriidae (Plovers and Lapwings)         | Charadriiformes  |
+| Least Pygmy-Owl  | Alcidae (Auks, Murres, and Puffins)         | Charadriiformes  |
+| Least Honeyguide | Bucorvidae (Ground-Hornbills)               | Coraciiformes    |
+| Least Grebe      | Phasianidae (Pheasants, Grouse, and Allies) | Galliformes      |
+| Least Flycatcher | Tyrannidae                                  | Passeriformes    |
++------------------+---------------------------------------------+------------------+
+
+pattern matching using REGEXP
+SELECT common_name AS 'Birds Small and Great', families.scientific_name AS 'Family', orders.scientific_name AS 'Order' FROM birds, bird_families AS families, bird_orders AS orders WHERE birds.family_id = families.family_id AND families.order_id = orders.order_id AND common_name REGEXP'Great|Least' ORDER BY orders.scientific_name, families.scientific_name DESC, common_name  LIMIT 10;
+
+pattern matching using NOT REGEXP
+SELECT common_name AS 'Birds Small and Great', families.scientific_name AS 'Family', orders.scientific_name AS 'Order' FROM birds, bird_families AS families, bird_orders AS orders WHERE birds.family_id = families.family_id AND families.order_id = orders.order_id AND common_name REGEXP'Great|^Least' AND common_name NOT REGEXP 'Great S' ORDER BY orders.scientific_name, families.scientific_name DESC, common_name  LIMIT 10;
+
+REGEXP with character sets
+SELECT common_name FROM birds WHERE common_name REGEXP '[[:space:]]Hawk|[[.hyphen.]]Hawk' AND common_name NOT REGEXP 'Hawk-Owl|Hawk Owl' ORDER BY family_id LIMIT 10;
+
+// counting
+// count all rows
+SELECT COUNT(*) FROM birds;
+
+// count for particular family
+SELECT families.scientific_name AS 'Family', COUNT(*) AS 'Number of Birds' FROM birds, bird_families AS families WHERE birds.family_id = families.family_id AND families.scientific_name = 'Odontophoridae (New World Quail)';
+
+
+// count birds for particular order
+SELECT orders.scientific_name AS 'Order', COUNT(*) As 'Number of birds in order' FROM birds, bird_families AS families, bird_orders AS orders WHERE birds.family_id = families.family_id AND families.order_id = orders.order_id AND orders.scientific_name = 'Galliformes';
+
+// find all families whose order name begins with Pele
+SELECT families.scientific_name AS 'Family', orders.scientific_name AS 'Order' FROM bird_families AS families, bird_orders AS orders WHERE families.order_id = orders.order_id AND orders.scientific_name LIKE 'Pele%';
+
+// grouping results
+SELECT orders.scientific_name AS 'Order', families.scientific_name AS 'Family', COUNT(*) AS 'Number of birds' FROM birds, bird_families AS families, bird_orders AS orders WHERE birds.family_id = families.family_id AND families.order_id =  orders.order_id AND orders.scientific_name REGEXP 'Pele' GROUP BY  Family;
++----------------+-----------------------------------------+-----------------+
+| Order          | Family                                  | Number of birds |
++----------------+-----------------------------------------+-----------------+
+| Pelecaniformes | Pelecanidae (Pelicans)                  |               3 |
+| Pelecaniformes | Balaenicipitidae (Shoebill)             |             157 |
+| Pelecaniformes | Scopidae (Hamerkop)                     |              53 |
+| Pelecaniformes | Ardeidae (Herons, Egrets, and Bitterns) |              14 |
++----------------+-----------------------------------------+-----------------+
+
+// selecting based on random numbers 
+ SELECT winner_id, human_id, RAND() AS Ran FROM prize_winners ORDER BY Ran;
+
+// ORDER Randomly
+SELECT winner_id, human_id FROM prize_winners ORDER BY RAND(); 
+
+// randomly choose two records
+ SELECT winner_id, human_id, RAND() AS Ran FROM prize_winners ORDER BY Ran LIMIT 2;
+

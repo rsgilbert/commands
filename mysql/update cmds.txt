@@ -1,0 +1,14 @@
+// update a column for all records
+UPDATE humans SET country_id='ug';
+
+// update single row
+UPDATE humans SET name_last='Osborne' WHERE human_id = 3;
+
+// alter, modify enum field
+ALTER TABLE humans MODIFY COLUMN formal_title enum('Mr', 'Ms', 'Ms.', 'Mr.');
+
+// alter, set using substring. Ms. to Ms. third param to substring is number of characters to pick
+UPDATE humans SET formal_title=SUBSTRING(formal_title, 1,2) WHERE formal_title='Ms.';
+
+// update based on RAND() and IS NULL
+UPDATE prize_winners SET winner_date = CURDATE() WHERE winner_date IS NULL ORDER BY RAND() LIMIT 2;

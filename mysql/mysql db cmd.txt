@@ -1,0 +1,99 @@
+// list dbs
+SHOW DATABASES;
+
+// create table
+CREATE TABLE world.books (book_id INT, title TEXT, status INT);
+// or
+CREATE TABLE birds (
+    -> bird_id INT INT AUTO_INCREMENT PRIMARY KEY,
+    -> scientific_name VARCHAR(255) UNIQUE,
+    -> common_name VARCHAR(50),
+    -> family_id INT,
+    -> description TEXT);
+// or create with blob
+CREATE TABLE birds_wing_shapes (
+    -> wing_id CHAR(2) UNIQUE,
+    -> wing_shape CHAR (25),
+    -> wing_example BLOB);
+// or with storage engine and charset
+CREATE TABLE `birds_wing_shapes` (
+    -> `wing_id` CHAR (2) DEFAULT NULL,
+    -> `wing_shape` CHAR (25) DEFAULT NULL,
+    -> `wing_example` BLOB,
+    -> UNIQUE KEY `wing_id` (`wing_id`)
+    -> ) ENGINE MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+// or from another table
+CREATE TABLE copy.birds_copy LIKE birds;
+
+// list tables in db
+SHOW TABLES FROM world;
+
+// create db
+CREATE DATABASE test;
+// or
+CREATE SCHEMA test;
+
+// see whats in a table
+DESCRIBE books;
+
+// inserting data
+INSERT INTO books VaLUES(100, 'Heart of Darkness', 0);
+
+// insert multiple records at once 
+INSERT INTO status_names VALUES(0, 'Inactive'), (1, 'Active');
+
+// display data
+SELECT * FROM books;
+
+// where clause
+SELECT * FROM books WHERE status= 1;
+
+// show output as batch of lines 
+SELECT * FROM books WHERE status=0 \G
+// with join
+ SELECT name, phone_mobile, relationship FROM contacts JOIN relation_types WHERE contacts.relation_id = relation_types.relation_id AND relationship = 'Friend';
+
+// select where there is value (for bit datatype)
+ SELECT * FROM birds_copy WHERE endangered;
+
+
+// update table
+UPDATE books SET status=1 WHERE book_id=300;
+
+// update many fields
+UPDATE books SET title='My New Love For Hadijjah', status=0 WHERE book_id = 300;
+
+// join
+SELECT book_id, title, status_name FROM books JOIN status_names WHERE status = status_id;
+
+// drop db
+DROP DATABASE rookery;
+// OR
+DROP SCHEMA rookery;
+
+
+// drop table
+ DROP TABLE birds;
+
+// backup table
+mysqldump -u gilbert -p rookery birds > Desktop\rookery-birds.sql
+
+// backup db
+mysqldump -u gilbert -p rookery > Desktop\rookery.sql
+
+// For a better mysqldump, use
+// https://stackoverflow.com/a/20086949/10030693
+mysqldump <dbname> -r <filename>
+
+// restore db
+mysqldump -u gilbert -p rook < learningmariadb-ch07-start.sql
+
+
+
+
+
+
+
+
+
+

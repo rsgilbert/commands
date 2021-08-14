@@ -1,0 +1,23 @@
+// alter many columns
+ ALTER TABLE bird_details
+    -> ADD COLUMN migrate INT,
+    -> ADD COLUMN bird_feeder INT,
+    -> CHANGE COLUMN description bird_description text;
+
+// rename table
+ALTER TABLE bird_habitats RENAME birds_habitats;
+// or
+RENAME TABLE bird_habitats TO birds_habitats;
+
+// create unique key for two fields in birds_habitats
+ ALTER TABLE birds_habitats ADD UNIQUE birds_habitats (bird_id, habitat_id);
+
+// update (not an alter)
+UPDATE birds_habitats SET habitat_id=2 WHERE bird_id=4 AND habitat_id=4;
+
+
+// alter to add columns with date and ENUM
+ALTER TABLE humans
+    -> ADD COLUMN country_id CHAR (2),
+    -> ADD COLUMN membership_type enum ('basic', 'premium'),
+    -> ADD COLUMN membership_expiration DATE;

@@ -1,0 +1,114 @@
+// rename table
+ ALTER TABLE birds_new RENAME birds2;
+// or
+RENAME TABLE birds TO birds_old;
+
+Rename / Move table using RENAME
+RENAME TABLE copy.birds_copy TO birds;
+// or
+RENAME TABLE copy.birds_copy TO rookery.birds;
+
+// add column
+ALTER TABLE bird_families ADD COLUMN order_id INT;
+
+// copy TABLE
+CREATE TABLE copy.birds_copy LIKE birds;
+
+// insert into copied table
+INSERT INTO birds_copy SELECT * FROM rookery.birds;
+
+// copy table with data (doesnt set primary key or auto increment)
+CREATE TABLE birds_copy SELECT * FROM rookery.birds; 
+
+// drop column
+ALTER TABLE birds_copy DROP COLUMN wing_id;
+
+// add column after a column
+ALTER TABLE birds_copy ADD COLUMN wing_id CHAR (2) AFTER family_id;
+
+// change column
+ALTER TABLE birds_copy
+    -> ADD COLUMN body_id CHAR(2) AFTER wing_id,
+    -> ADD COLUMN bill_id CHAR (2) AFTER body_id,
+    -> ADD COLUMN endangered BIT DEFAULT b'1' AFTER bill_id,
+    -> CHANGE COLUMN common_name common_name VARCHAR(255);
+
+// modify column (cant change column name)
+ ALTER TABLE birds_copy MODIFY COLUMN endangered ENUM ('Extinct', 'Threatened', 'Lower Risk');
+
+
+// show columns (like DESCRIBE)
+SHOW COLUMNS FROM birds_copy;
+
+// show particular column
+SHOW COLUMNS FROM birds_copy LIKE 'endangered';
+
+// change DEFAULT
+ ALTER TABLE birds_copy
+    -> CHANGE COLUMN endangered conservation_status_id INT DEFAULT 8;
+
+// modify DEFAULT
+ALTER TABLE birds_copy MODIFY COLUMN conservation_status_id INT DEFAULT 7;
+
+// alter just the DEFAULT
+ ALTER TABLE birds_copy
+    -> ALTER conservation_status_id SET DEFAULT 5;
+
+// remove DEFAULT. Restore default DEFAULT value
+ALTER TABLE birds_copy ALTER conservation_status_id DROP DEFAULT;
+
+// select auto increment from information_schema
+ SELECT auto_increment FROM information_schema.tables WHERE table_name = 'birds_copy';
+ 
+// change auto_increment
+ALTER TABLE birds AUTO_INCREMENT=80;
+
+// create table from another table
+CREATE TABLE birds_new LIKE birds;
+
+// find out highest auto_increment (see last line of result)
+SHOW CREATE TABLE birds \G
+
+// create table with some columns from another
+CREATE TABLE bird_details SELECT bird_id, description FROM birds;
+
+// filter tables with LIKE
+SHOW TABLES IN rookery LIKE 'bird%';
+
+// drop primary key and rename field but do not set auto_increment
+ ALTER TABLE conservation_status
+    -> DROP PRIMARY KEY,
+    -> CHANGE cons_status_id conservation_status_id INT PRIMARY KEY;
+
+// to remove auto_increment, modify table without including AUTO_INCREMENT
+ ALTER TABLE conservation_status MODIFY COLUMN conservation_status_id INT ;
+
+// modify column and set primary key
+ALTER TABLE conservation_status MODIFY COLUMN conservation_status_id INT PRIMARY KEY AUTO_INCREMENT ;
+
+Rename / Move table using RENAME
+RENAME TABLE copy.birds_copy TO birds;
+// or
+RENAME TABLE copy.birds_copy TO rookery.birds;
+
+
+
+
+
+bunga/gaba taxi -> nsambya estate kirombe taxi (mega opp shoprite)-> cinderella p/s -> hri 
+human rights initiative
+golden eagles junior school.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

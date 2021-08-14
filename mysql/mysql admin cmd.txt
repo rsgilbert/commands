@@ -1,0 +1,44 @@
+// set a password for root
+mysqladmin -u root -p flush-privileges password
+
+// Read more on how to reset your root password here
+// https://stackoverflow.com/a/34207996/10030693
+
+// drop a user
+mysql -u root -p -e "DROP USER 'admin'@'%';"
+
+// set password 
+SET PASSWORD FOR 'root'@'locahost' = PASSWORD('mypasswd');
+
+// flush user privileges so that the new passwords will take effect.
+mysqladmin -u root -p flush-privileges
+
+// create a user
+mysql -u root -p -e "CREATE USER 'gilbert'@'localhost' IDENTIFIED BY 'stanislav100';"
+
+// see a list of users
+mysql -u root -p -e "SELECT User,Host FROM mysql.user;"
+
+// show privileges and roles for a user
+mysql -u root -p -e "SHOW GRANTS FOR 'gilbert'@'localhost'"
+## You get the following result table for a new user
++---------------------------------------------+
+| Grants for gilbert@localhost                |
++---------------------------------------------+
+| GRANT USAGE ON *.* TO `gilbert`@`localhost` |
++---------------------------------------------+
+
+
+// assigning a privilege
+mysql -u root -p -e "GRANT SELECT ON *.* TO 'gilbert'@'localhost';"
+
+// assign all privileges
+using the ALL setting:
+mysql -u root -p -e "GRANT ALL ON *.* TO 'gilbert'@'localhost';"
+
+// connect to mysql monitor
+mysql -u gilbert -p
+
+// set the prompt
+prompt mysql \d>\_
+

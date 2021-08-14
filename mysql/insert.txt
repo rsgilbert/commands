@@ -1,0 +1,34 @@
+// insert using maps
+INSERT INTO bird_families SET scientific_name= 'Rallidae', order_id=113;
+
+
+// ignore duplicates and dont insert the duplicates
+// if data type doesnt match, eg char for int, try to go around it, eg 0 for int field
+INSERT IGNORE INTO bird_families (scientific_name, order_id) VALUES ("dkf", "JFJ"), 
+
+// replace duplicates
+REPLACE INTO bird_families (scientific_name, brief_description, order_id)
+    -> VALUES ('Viduidae', 'Indigobirds & Whydahs', 128);
+    
+insert from other table (I've not tried it out)
+INSERT IGNORE INTO bird_families
+(scientific_name, brief_description, cornell_bird_order)
+SELECT bird_family, examples, bird_order
+FROM cornell_birds_families_orders;
+
+// set auto_increment
+ALTER TABLE bird_orders AUTO_INCREMENT=100;
+
+// get a list of reference COLUMNS
+SHOW COLUMNS FROM birds LIKE '%id';
+
+// show more information about columns
+SHOW FULL COLUMNS FROM birds;
+
+// remove an index / key
+ALTER TABLE birds DROP INDEX endangered;
+
+// selecting with multiple joins
+SELECT common_name AS 'Bird', birds.scientific_name AS 'Scientific Name',
+    -> bird_families.scientific_name AS 'Family', bird_orders.scientific_name AS 'Order'
+    -> FROM birds, bird_families, bird_orders WHERE birds.family_id = bird_families.family_id AND bird_families.order_id = bird_orders.order_id;

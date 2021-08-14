@@ -1,0 +1,8 @@
+// insert into bird body shapes
+// note that the brackets ( and ) need to be there for 
+// the fields ie. (body_id, body_shape) else you get an error
+INSERT INTO birds_body_shapes (body_id, body_shape) VALUES ('HBD', 'Hummingbird'), ('LLW', 'Long-Legged Wader'), ('MHN', 'Marsh Hen');
+
+
+// to remove auto_increment, set it to zero
+ALTER TABLE birds_wing_shapes AUTO_INCREMENT=0;

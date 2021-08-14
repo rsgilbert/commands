@@ -1,0 +1,56 @@
+accessing mysql monitor
+mysql -u gilbert -pgilbert100 --prompt \d>
+
+TEXT can hold upto 64kb of data
+
+ALTER TABLE birds_copy ALTER conservation_status_id DROP DEFAULT;
+
+auto_increment guarantees that the new 
+record created will have a unique key greater than
+all other keys in the field. 
+Auto_increment does not guarantee id's will
+increase by 1 all the time
+
+An error during insert can increase auto_increment regardless
+
+To find current auto_increment, use SHOW CREATE TABLE birds
+
+(not working)
+To set mysql default prompt, in C:\ProgramData\MySQL\MySQL Server 8.0, under client [mysql]
+#set prompt (not working)
+prompt=\d>  (not working)
+
+
+InnoDB engine doesnot understand AlTER TABLE country_codes ORDER BY country_name;
+
+how indexes work:
+Basically, when a SELECT is run in which
+the user wants to search the table based on the person’s last name, MySQL will use the
+human_names index that we created, and not search the name_last column sequentially.
+That’s what we want. That will make for a quicker search.
+
+database development is generally always a work in progress
+
+// ordering by default is whatever order the items were found in the table
+
+LIMIT 3 is the same as LIMIT 0, 3; 0 is the starting  point ie how many to skip, 3 are how many to return
+
+<> is the same as != and they are the opposite of =. They are the inequality signs
+
+// notes on pattern matching
+REGEXP and NOT REGEXP
+Default matches words that start like the given pattern
+On the column if collation is binary eg latin1_bin, matches are Case sensitive by default
+but if the collation on the column is not binary eg utf8mb4_0900_ai_ci, matches are case insensitive by default
+
+Use BINARY tag for case sensitive pattern matching on collumns whose collation is not binary
+
+// character classes and name are put between two pairs of double brackets
+// character class: given between a pair of colons eg. 
+[[:alpha]] for alphabetic characters
+
+// character name: given between a pair of dots eg. 
+[[.hyphen.]] for a hyphen
+
+// LIKE
+% is the wildcard that matches any amount of characters

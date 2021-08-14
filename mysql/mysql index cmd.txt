@@ -1,0 +1,8 @@
+explain sql statement
+EXPLAIN SELECT * FROM humans WHERE name_last = 'gil'\G
+
+// Add index to two columns
+ALTER TABLE humans ADD INDEX human_names (name_last, name_first);
+
+// show information about an index
+ SHOW INDEX FROM humans WHERE Key_name = 'human_names'\G
